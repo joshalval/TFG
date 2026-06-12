@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local configuration
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# OS and Office temporary files
+Thumbs.db
+.DS_Store
+~$*
+
+# Temporary logs
+*.log
