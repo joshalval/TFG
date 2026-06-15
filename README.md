@@ -37,19 +37,6 @@ La carpeta `Datos` contiene los CSV necesarios para ejecutar el proyecto sin dep
 
 Se recomienda Python 3.11.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-En Linux o macOS, la activacion del entorno virtual seria:
-
-```bash
-source .venv/bin/activate
-```
-
 ## Ejecucion
 
 Ejecutar los scripts desde la carpeta raiz del repositorio:
@@ -92,5 +79,4 @@ Tambien se puede crear un archivo local `.env` con esas variables. Este archivo 
 
 ## Notas
 
-- El archivo `.gitignore` excluye `.env`, entornos virtuales, cache de Python y archivos temporales.
 - Las graficas y CSV de resultados incluidos corresponden a la ejecucion final usada en la memoria del TFG.
