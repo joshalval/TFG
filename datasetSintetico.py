@@ -111,6 +111,34 @@ def crear_puntos_limite(df, rangos_hora, rangos_dia):
     return pd.concat([puntos_dia, puntos_hora], ignore_index=True)
 
 
+def crear_puntos_humedad_horas(puntos_referencia, rangos_hora, rangos_dia):
+    filas = []
+    offsets = [1, 2]
+    puntos_referencia = puntos_referencia.copy()
+    puntos_referencia["horas"] = puntos_referencia["measured_date"].dt.hour
+
+    for hora, grupo in puntos_referencia.groupby("horas"):
+        fila_base = grupo.sort_values("measured_date").iloc[len(grupo) // 2]
+        rango_hora = rangos_hora.loc[hora]
+
+        humedades = []
+        humedades.extend(rango_hora["hum_min"] - offset for offset in offsets)
+        humedades.extend(rango_hora["hum_max"] + offset for offset in offsets)
+
+        for humedad in humedades:
+            filas.append(
+                crear_fila(
+                    fila_base["measured_date"],
+                    fila_base["temperatura"],
+                    humedad,
+                    rangos_hora,
+                    rangos_dia,
+                )
+            )
+
+    return pd.DataFrame(filas)
+
+
 def crear_puntos_manuales(rangos_hora, rangos_dia):
     fechas_locales = [
         "2021-04-29 11:00:00",
@@ -175,9 +203,10 @@ def main():
     rangos_hora, rangos_dia = calcular_rangos(df)
 
     puntos_auto = crear_puntos_limite(df, rangos_hora, rangos_dia)
+    puntos_humedad_horas = crear_puntos_humedad_horas(puntos_auto, rangos_hora, rangos_dia)
     puntos_manuales = crear_puntos_manuales(rangos_hora, rangos_dia)
 
-    dataset_prueba = pd.concat([puntos_auto, puntos_manuales], ignore_index=True)
+    dataset_prueba = pd.concat([puntos_auto, puntos_humedad_horas, puntos_manuales], ignore_index=True)
     dataset_prueba = dataset_prueba.drop_duplicates(
         subset=[
             "measured_date",
