@@ -75,7 +75,7 @@ TFG_DB_USER
 TFG_DB_PASSWORD
 ```
 
-Tambien se puede crear un archivo local `.env` con esas variables. Este archivo no debe subirse al repositorio.
+Tambien se puede crear un archivo local `.env` con esas variables.
 
 ## Notas
 
